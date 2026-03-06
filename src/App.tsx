@@ -25,7 +25,7 @@ export default function App() {
 
   const fetchJobs = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/jobs");
+      const response = await fetch("https://bid-versus-backend.onrender.com/api/jobs");
       const data = await response.json();
 
       // 1. Update the background board
@@ -67,7 +67,7 @@ export default function App() {
     if (!token) return; // Don't fetch if not logged in
 
     try {
-      const response = await fetch("http://localhost:5000/api/notifications", {
+      const response = await fetch("https://bid-versus-backend.onrender.com/api/notifications", {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (response.ok) {
@@ -386,7 +386,7 @@ export default function App() {
     try {
       const token = currentUser ? localStorage.getItem("bidVersusToken") : null;
 
-      const response = await fetch("http://localhost:5000/api/jobs", {
+      const response = await fetch("https://bid-versus-backend.onrender.com/api/jobs", {
         method: "POST",
         headers: token ? { Authorization: `Bearer ${token}` } : {},
         body: formData,
@@ -548,8 +548,8 @@ export default function App() {
     try {
       const token = currentUser ? localStorage.getItem("bidVersusToken") : null;
       const url = editingBidId
-        ? `http://localhost:5000/api/bids/${editingBidId}`
-        : "http://localhost:5000/api/bids";
+        ? `https://bid-versus-backend.onrender.com/api/bids/${editingBidId}`
+        : "https://bid-versus-backend.onrender.com/api/bids";
       const method = editingBidId ? "PUT" : "POST";
       const headers = {};
       if (token) headers.Authorization = `Bearer ${token}`;
@@ -600,7 +600,7 @@ export default function App() {
 
     try {
       const token = localStorage.getItem("bidVersusToken");
-      await fetch(`http://localhost:5000/api/bids/${bidId}/counter`, {
+      await fetch(`https://bid-versus-backend.onrender.com/api/bids/${bidId}/counter`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -618,7 +618,7 @@ export default function App() {
   const handleProviderResponse = async (bidId, action, newAmount = null) => {
     try {
       const token = localStorage.getItem("bidVersusToken");
-      await fetch(`http://localhost:5000/api/bids/${bidId}/respond-counter`, {
+      await fetch(`https://bid-versus-backend.onrender.com/api/bids/${bidId}/respond-counter`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -636,7 +636,7 @@ export default function App() {
     try {
       const token = localStorage.getItem("bidVersusToken");
       const response = await fetch(
-        `http://localhost:5000/api/jobs/${jobId}/accept`,
+        `https://bid-versus-backend.onrender.com/api/jobs/${jobId}/accept`,
         {
           method: "PUT",
           headers: {
@@ -666,7 +666,7 @@ export default function App() {
         try {
           const token = localStorage.getItem("bidVersusToken");
           const response = await fetch(
-            `http://localhost:5000/api/jobs/${jobId}/unaccept`,
+            `https://bid-versus-backend.onrender.com/api/jobs/${jobId}/unaccept`,
             {
               method: "PUT",
               headers: { Authorization: `Bearer ${token}` },
@@ -688,7 +688,7 @@ export default function App() {
         try {
           const token = localStorage.getItem("bidVersusToken");
           const response = await fetch(
-            `http://localhost:5000/api/bids/${bidId}`,
+            `https://bid-versus-backend.onrender.com/api/bids/${bidId}`,
             {
               method: "DELETE",
               headers: { Authorization: `Bearer ${token}` },
@@ -713,7 +713,7 @@ export default function App() {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/jobs/${jobId}/comments`,
+        `https://bid-versus-backend.onrender.com/api/jobs/${jobId}/comments`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -739,7 +739,7 @@ export default function App() {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/bids/${bidId}/comments`,
+        `https://bid-versus-backend.onrender.com/api/bids/${bidId}/comments`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -823,7 +823,7 @@ export default function App() {
         ? { password: deleteInput }
         : { emailConfirm: deleteInput };
 
-      const res = await fetch("http://localhost:5000/api/auth/delete-account", {
+      const res = await fetch("https://bid-versus-backend.onrender.com/api/auth/delete-account", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -866,7 +866,7 @@ export default function App() {
           setNotifications(newNotifs);
           const token = localStorage.getItem("bidVersusToken");
           if (token) {
-            await fetch("http://localhost:5000/api/notifications/read", {
+            await fetch("https://bid-versus-backend.onrender.com/api/notifications/read", {
               method: "PUT",
               headers: { Authorization: `Bearer ${token}` },
             });

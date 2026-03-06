@@ -83,7 +83,7 @@ export default function JobDetails({
 
     try {
       const token = localStorage.getItem("bidVersusToken");
-      await fetch(`http://localhost:5000/api/bids/${bidId}/counter`, {
+      await fetch(`https://bid-versus-backend.onrender.com/api/bids/${bidId}/counter`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -111,7 +111,7 @@ export default function JobDetails({
 
       const token = localStorage.getItem("bidVersusToken");
       const response = await fetch(
-        `http://localhost:5000/api/bids/${bidId}/respond-counter`,
+        `https://bid-versus-backend.onrender.com/api/bids/${bidId}/respond-counter`,
         {
           method: "PUT",
           headers: {
