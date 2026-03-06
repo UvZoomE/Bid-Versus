@@ -183,7 +183,7 @@ export default function JobDetails({
                   url: selectedJob.documentUrl
                     ? selectedJob.documentUrl.startsWith("http")
                       ? selectedJob.documentUrl
-                      : `http://localhost:5000/${selectedJob.documentUrl.replace(/\\/g, "/")}`
+                      : `https://bid-versus-backend.onrender.com/${selectedJob.documentUrl.replace(/\\/g, "/")}`
                     : "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&q=80&w=800",
                   type: selectedJob.documentType || "image/jpeg",
                 })
@@ -208,7 +208,7 @@ export default function JobDetails({
                         return "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&q=80&w=800";
                       if (selectedJob.documentUrl.startsWith("http"))
                         return selectedJob.documentUrl;
-                      return `http://localhost:5000/${selectedJob.documentUrl.replace(/\\/g, "/")}`;
+                      return `https://bid-versus-backend.onrender.com/${selectedJob.documentUrl.replace(/\\/g, "/")}`;
                     })()}
                     alt="Original Quote Preview"
                     className="img-preview"
