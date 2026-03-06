@@ -1,0 +1,39 @@
+# Dependency directories
+node_modules/
+
+# Environment variables (Crucial for security!)
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Local uploads (Don't push user PDFs/Images to GitHub)
+uploads/
+temp/
+tmp/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor directories and files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

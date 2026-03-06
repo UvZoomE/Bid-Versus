@@ -1,0 +1,9 @@
+/* Reset Vite's default constraints so our App.css can take over */
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
