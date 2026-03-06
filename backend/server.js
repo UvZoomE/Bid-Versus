@@ -1,11 +1,11 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const path = require("path");
-const connectDB = require("./config/db"); // Uses your database connection file
+// const path = require("path"); // <-- No longer needed!
+const connectDB = require("./config/db");
 const notificationRoutes = require("./routes/notificationRoutes.js");
 
-// Import the Routes we built earlier
+// Import the Routes
 const authRoutes = require("./routes/authRoutes");
 const jobRoutes = require("./routes/jobRoutes");
 const bidRoutes = require("./routes/bidRoutes");
@@ -16,18 +16,27 @@ const app = express();
 // ==========================================
 // MIDDLEWARE
 // ==========================================
-app.use(cors()); // Allows your React app to talk to this server
-app.use(express.json()); // Allows the server to accept JSON data
-app.use(express.urlencoded({ extended: true })); // Allows the server to accept form data
 
-// VERY IMPORTANT: This makes your "uploads" folder publicly accessible
-// so your React Modals.jsx can display the PDF/Images you upload!
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+// === PRODUCTION CORS SECURITY ===
+// This acts as a bouncer, only letting your specific domains talk to the database
+app.use(
+  cors({
+    origin: [
+      "https://bidversus.com",
+      "https://www.bidversus.com",
+      "http://localhost:5173", // Keep this so you can still build features on your own machine!
+    ],
+    credentials: true,
+  }),
+);
+// ==========================================
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // ==========================================
 // MOUNT ROUTES
 // ==========================================
-// This tells Express: "If a request starts with /api/jobs, send it to jobRoutes.js"
 app.use("/api/auth", authRoutes);
 app.use("/api/jobs", jobRoutes);
 app.use("/api/bids", bidRoutes);
@@ -38,7 +47,6 @@ app.use("/api/notifications", notificationRoutes);
 // ==========================================
 const PORT = process.env.PORT || 5000;
 
-// Connect to MongoDB, then start listening
 connectDB().then(() => {
   app.listen(PORT, () => {
     console.log(`✅ Server is running on port ${PORT}`);

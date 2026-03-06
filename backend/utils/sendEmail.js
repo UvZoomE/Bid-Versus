@@ -13,7 +13,7 @@ const sendVerificationEmail = async (
 ) => {
   try {
     console.log(`[RESEND] Attempting to send verification email to: ${email}`);
-    const verifyUrl = `http://localhost:5173/verify-email?token=${token}&type=${linkType}`;
+    const verifyUrl = `https://bidversus.com/verify-email?token=${token}&type=${linkType}`;
 
     // Create a dynamic subject line so Gmail doesn't hide it in an old thread
     const timeSent = new Date().toLocaleTimeString([], {
@@ -68,7 +68,7 @@ const sendBidAcceptedEmail = async (email, providerName, jobTitle, amount) => {
           <p>Your bid of <strong>$${amount}</strong> for the job <strong>"${jobTitle}"</strong> has been accepted by the customer.</p>
           <p>You can now log in to your dashboard to see the customer's contact information and coordinate the service.</p>
           <div style="margin: 25px 0;">
-            <a href="http://localhost:5173" style="background-color: #10b981; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold;">View Dashboard</a>
+            <a href="https://bidversus.com" style="background-color: #10b981; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold;">View Dashboard</a>
           </div>
         </div>
       `,
