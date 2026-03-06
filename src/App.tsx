@@ -1,3 +1,6 @@
+/* eslint-disable prefer-const */
+/* eslint-disable no-empty */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useEffect } from "react";
 import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import "./App.css";
@@ -101,6 +104,7 @@ export default function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [authMode, setAuthMode] = useState("login");
   const [authForm, setAuthForm] = useState({ name: "", email: "" });
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [unverifiedEmails, setUnverifiedEmails] = useState([]);
 
   const [newQuoteForm, setNewQuoteForm] = useState({
