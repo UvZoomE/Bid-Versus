@@ -17,6 +17,15 @@ export default function CustomerDashboard({
   setCurrentScreen,
   resetBidForms,
 }) {
+  // Helper function to force Cloudinary to render PDFs as images
+  const getThumbnailUrl = (url) => {
+    if (!url) return null;
+    // If it's a PDF, replace the extension with .jpg
+    if (url.endsWith(".pdf")) {
+      return url.replace(".pdf", ".jpg");
+    }
+    return url;
+  };
   return (
     <div className="customer-dashboard">
       {/* Dashboard Header */}
@@ -45,6 +54,7 @@ export default function CustomerDashboard({
       {/* Scrolling Feed Container */}
       <div className="feed-container">
         {jobs.map((job) => {
+          console.log("Job Data:", job);
           const lowest = getLowestBid(job.bids);
 
           // Updated to handle MongoDB's _id structure
@@ -96,7 +106,11 @@ export default function CustomerDashboard({
                     />
                   )}
 
-                  <span className="job-category">{job.category}</span>
+                  <span className="job-category">
+                    {job.category === "Home" || job.category === "Auto"
+                      ? `${job.category} Repair`
+                      : job.category}
+                  </span>
 
                   {job.location && (
                     <span className="job-location">
@@ -117,11 +131,30 @@ export default function CustomerDashboard({
               </div>
 
               {/* Card Middle: Text Content */}
-              <h3 className="job-title">{job.title}</h3>
-              <p className="job-meta">
-                Posted by <strong>{job.author}</strong> • {displayDate}
-              </p>
-              <p className="job-desc">{job.description}</p>
+              <div className="text-content-container">
+                <h3 className="job-title">{job.title}</h3>
+                {job.documentUrl && job.documentUrl.startsWith("https") ? (
+                  <div className="job-image-container">
+                    <img
+                      src={getThumbnailUrl(job.documentUrl)}
+                      alt="Quote attachment"
+                      className="job-image"
+                    />
+                  </div>
+                ) : (
+                  <div className="job-image-container">
+                    <img
+                      src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&q=80&w=800"
+                      alt="Quote attachment"
+                      className="job-image"
+                    />
+                  </div>
+                )}
+                <p className="job-meta">
+                  Posted by <strong>{job.author}</strong> • {displayDate}
+                </p>
+                <p className="job-desc">{job.description}</p>
+              </div>
 
               {/* Card Bottom: Pricing */}
               <div className="job-footer">

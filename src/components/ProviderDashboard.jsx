@@ -10,6 +10,16 @@ export default function ProviderDashboard({
   setCurrentScreen,
   resetBidForms,
 }) {
+  // Helper function to force Cloudinary to render PDFs as images
+  const getThumbnailUrl = (url) => {
+    if (!url) return null;
+    // If it's a PDF, replace the extension with .jpg
+    if (url.endsWith(".pdf")) {
+      return url.replace(".pdf", ".jpg");
+    }
+    return url;
+  };
+
   return (
     <div className="provider-dashboard">
       {/* Dashboard Header */}
@@ -53,7 +63,9 @@ export default function ProviderDashboard({
                   <span
                     className={`p-category-badge ${job.category === "Auto" ? "badge-auto" : job.category === "Home" ? "badge-home" : "badge-other"}`}
                   >
-                    {job.category}
+                    {job.category === "Home" || job.category === "Auto"
+                      ? `${job.category} Repair`
+                      : job.category}
                   </span>
 
                   {job.location && (
@@ -63,30 +75,46 @@ export default function ProviderDashboard({
                   )}
 
                   <span className="p-job-date">Posted {displayDate}</span>
+                  <div className="p-job-actions">
+                    <div>
+                      <p className="p-quote-label">Customer's Quote</p>
+                      <p className="p-quote-amount">${job.originalQuote}</p>
+                    </div>
+
+                    <button
+                      className={`btn-bid-action ${userHasBid ? "btn-bid-placed" : "btn-view-bid"}`}
+                    >
+                      {userHasBid ? (
+                        <>
+                          <CheckCircle className="w-4 h-4" /> Bid Placed
+                        </>
+                      ) : (
+                        "View & Bid"
+                      )}
+                    </button>
+                  </div>
                 </div>
-
-                <h3 className="p-job-title">{job.title}</h3>
-                <p className="p-job-desc">{job.description}</p>
-              </div>
-
-              {/* Right Side: Pricing & Actions */}
-              <div className="p-job-actions">
-                <div>
-                  <p className="p-quote-label">Customer's Quote</p>
-                  <p className="p-quote-amount">${job.originalQuote}</p>
-                </div>
-
-                <button
-                  className={`btn-bid-action ${userHasBid ? "btn-bid-placed" : "btn-view-bid"}`}
-                >
-                  {userHasBid ? (
-                    <>
-                      <CheckCircle className="w-4 h-4" /> Bid Placed
-                    </>
+                <div className="text-image-container">
+                  <h3 className="p-job-title">{job.title}</h3>
+                  {job.documentUrl && job.documentUrl.startsWith("https") ? (
+                    <div className="job-image-container">
+                      <img
+                        src={getThumbnailUrl(job.documentUrl)}
+                        alt="Quote attachment"
+                        className="job-image"
+                      />
+                    </div>
                   ) : (
-                    "View & Bid"
+                    <div className="job-image-container">
+                      <img
+                        src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&q=80&w=800"
+                        alt="Quote attachment"
+                        className="job-image"
+                      />
+                    </div>
                   )}
-                </button>
+                  <p className="p-job-desc">{job.description}</p>
+                </div>
               </div>
             </div>
           );
