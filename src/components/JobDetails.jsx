@@ -83,14 +83,17 @@ export default function JobDetails({
 
     try {
       const token = localStorage.getItem("bidVersusToken");
-      await fetch(`https://bid-versus-backend.onrender.com/api/bids/${bidId}/counter`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+      await fetch(
+        `https://bid-versus-backend.onrender.com/api/bids/${bidId}/counter`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ amount }),
         },
-        body: JSON.stringify({ amount }),
-      });
+      );
       setShowCounter((prev) => ({ ...prev, [bidId]: false }));
       if (fetchJobs) await fetchJobs();
     } catch (error) {
@@ -102,11 +105,8 @@ export default function JobDetails({
   const onProviderResponse = async (bidId, action, newAmount = null) => {
     try {
       // 1. Optimistic UI Update (Hide the blue box immediately)
-      // This makes the "Decline" button feel instant
       if (existingBidForCurrentJob && existingBidForCurrentJob._id === bidId) {
         const updatedBid = { ...existingBidForCurrentJob, customerOffer: null };
-        // Note: We can't easily update 'selectedJob' state directly here without prop drilling,
-        // but the fetchJobs() below will handle the real data sync.
       }
 
       const token = localStorage.getItem("bidVersusToken");
@@ -126,7 +126,6 @@ export default function JobDetails({
 
       if (!response.ok) {
         console.error("Provider Response Error:", data.message);
-        // Optional: Alert the user if it failed
         alert(`Error: ${data.message}`);
       }
 
@@ -180,11 +179,11 @@ export default function JobDetails({
               className="doc-viewer-container"
               onClick={() =>
                 setViewingDocument({
-                  url: selectedJob.documentUrl
-                    ? selectedJob.documentUrl.startsWith("http")
+                  url:
+                    selectedJob.documentUrl &&
+                    selectedJob.documentUrl.startsWith("https")
                       ? selectedJob.documentUrl
-                      : `https://bid-versus-backend.onrender.com/${selectedJob.documentUrl.replace(/\\/g, "/")}`
-                    : "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&q=80&w=800",
+                      : "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&q=80&w=800",
                   type: selectedJob.documentType || "image/jpeg",
                 })
               }
@@ -204,11 +203,12 @@ export default function JobDetails({
                 ) : (
                   <img
                     src={(() => {
-                      if (!selectedJob.documentUrl)
+                      if (
+                        !selectedJob.documentUrl ||
+                        !selectedJob.documentUrl.startsWith("https")
+                      )
                         return "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&q=80&w=800";
-                      if (selectedJob.documentUrl.startsWith("http"))
-                        return selectedJob.documentUrl;
-                      return `https://bid-versus-backend.onrender.com/${selectedJob.documentUrl.replace(/\\/g, "/")}`;
+                      return selectedJob.documentUrl;
                     })()}
                     alt="Original Quote Preview"
                     className="img-preview"
@@ -500,8 +500,10 @@ export default function JobDetails({
                           onClick={() =>
                             setViewingDocument({
                               url:
-                                bid.documentUrl ||
-                                "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&q=80&w=800",
+                                bid.documentUrl &&
+                                bid.documentUrl.startsWith("https")
+                                  ? bid.documentUrl
+                                  : "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&q=80&w=800",
                               type: bid.documentType || "image/jpeg",
                             })
                           }
@@ -692,8 +694,8 @@ export default function JobDetails({
               )}
             </div>
           ) : /* ===================================
-               PROVIDER VIEW LOGIC (Else Block)
-               =================================== */
+                PROVIDER VIEW LOGIC (Else Block)
+                =================================== */
           isJobOwner ? (
             /* SCENARIO 1: I AM THE AUTHOR (BLOCK BIDDING) */
             <div
@@ -788,7 +790,7 @@ export default function JobDetails({
                         The customer wants to pay this amount. Accept it to win
                         the job immediately, or decline to stick to your price.
                       </p>
-                      <div style={{ display: "flex", gap: "0.5rem" }}>
+                      <div className="action-buttons-row">
                         <button
                           onClick={() =>
                             onProviderResponse(
@@ -826,7 +828,7 @@ export default function JobDetails({
                     </p>
                   )}
 
-                  <div style={{ display: "flex", gap: "0.5rem" }}>
+                  <div className="action-buttons-row">
                     <button
                       onClick={() => {
                         setEditingBidId(freshBid._id || freshBid.id);
@@ -1034,13 +1036,7 @@ export default function JobDetails({
                   />
                 </div>
 
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "1fr 2fr",
-                    gap: "1rem",
-                  }}
-                >
+                <div className="zip-city-row">
                   <div>
                     <label
                       style={{
@@ -1267,7 +1263,7 @@ export default function JobDetails({
                 {signatureWarning && (
                   <div className="warning-box">
                     <p className="title">Signature Not Detected</p>
-                    <div style={{ display: "flex", gap: "0.5rem" }}>
+                    <div className="action-buttons-row">
                       <button
                         type="button"
                         onClick={() => {
@@ -1290,7 +1286,7 @@ export default function JobDetails({
                 )}
 
                 {!signatureWarning && (
-                  <div style={{ display: "flex", gap: "0.5rem" }}>
+                  <div className="action-buttons-row">
                     {editingBidId && (
                       <button
                         type="button"

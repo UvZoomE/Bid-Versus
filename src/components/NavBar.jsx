@@ -22,7 +22,7 @@ export default function Navbar({
   return (
     <nav className="navbar">
       <div className="navbar-content">
-        {/* Brand Logo */}
+        {/* Brand Logo - Top Left */}
         <div
           className="navbar-brand"
           onClick={() => {
@@ -34,32 +34,33 @@ export default function Navbar({
           <span>Bid Versus</span>
         </div>
 
-        <div className="navbar-actions">
-          {/* Universal Role Toggle */}
-          <div className="role-toggle">
-            <button
-              onClick={() => {
-                setViewMode("customer");
-                setCurrentScreen("dashboard");
-                resetBidForms();
-              }}
-              className={`role-btn ${viewMode === "customer" ? "active" : ""}`}
-            >
-              <User className="w-4 h-4" /> Customer
-            </button>
-            <button
-              onClick={() => {
-                setViewMode("provider");
-                setCurrentScreen("dashboard");
-                resetBidForms();
-              }}
-              className={`role-btn ${viewMode === "provider" ? "active" : ""}`}
-            >
-              <Briefcase className="w-4 h-4" /> Provider
-            </button>
-          </div>
+        {/* Universal Role Toggle - Wraps to bottom row on mobile, center on desktop */}
+        <div className="role-toggle">
+          <button
+            onClick={() => {
+              setViewMode("customer");
+              setCurrentScreen("dashboard");
+              resetBidForms();
+            }}
+            className={`role-btn ${viewMode === "customer" ? "active" : ""}`}
+          >
+            <User className="w-4 h-4" /> Customer
+          </button>
+          <button
+            onClick={() => {
+              setViewMode("provider");
+              setCurrentScreen("dashboard");
+              resetBidForms();
+            }}
+            className={`role-btn ${viewMode === "provider" ? "active" : ""}`}
+          >
+            <Briefcase className="w-4 h-4" /> Provider
+          </button>
+        </div>
 
-          {/* Notifications Bell (Only visible to logged-in users) */}
+        {/* Right Actions - Top Right */}
+        <div className="navbar-right">
+          {/* Notifications Bell */}
           {currentUser && (
             <div className="notif-container">
               <button
@@ -108,7 +109,6 @@ export default function Navbar({
                               ),
                             );
 
-                            // UPDATED: Now checks for both MongoDB _id and local id
                             const job = jobs.find(
                               (j) => (j._id || j.id) === notif.jobId,
                             );
@@ -133,7 +133,7 @@ export default function Navbar({
             </div>
           )}
 
-          {/* Dynamic Navigation based on Auth State */}
+          {/* User Menu / Login Button */}
           {currentUser ? (
             <div className="user-menu">
               <span className="user-name">Hi, {currentUser.name}</span>
@@ -160,7 +160,7 @@ export default function Navbar({
               className="btn-primary"
               style={{ padding: "0.375rem 1rem", fontSize: "0.875rem" }}
             >
-              Sign In / Register
+              Sign In
             </button>
           )}
         </div>

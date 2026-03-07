@@ -7,21 +7,19 @@ export default function Modals({
   modalConfig,
   setModalConfig,
 }) {
-  // HELPER: Formats the URL so Multer uploads display correctly
+  // HELPER: Formats the URL to strictly enforce HTTPS or fallback to placeholder
   const getFullUrl = (url) => {
-    if (!url) return "";
-    // If it's an external image (Unsplash) or a temporary browser blob, return it as-is
-    if (
-      url.startsWith("http") ||
-      url.startsWith("blob:") ||
-      url.startsWith("data:")
-    ) {
+    if (!url) {
+      return "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&q=80&w=800";
+    }
+
+    // If it's a secure Cloudinary image or any other valid secure link, use it
+    if (url.startsWith("https")) {
       return url;
     }
-    // If it's a relative path from our backend (e.g., 'uploads/file.pdf'), attach the server address
-    // We also replace backslashes with forward slashes in case you are on Windows
-    const cleanPath = url.replace(/\\/g, "/");
-    return `https://bid-versus-backend.onrender.com/${cleanPath}`;
+
+    // If it's a legacy local path or HTTP, force the fallback placeholder
+    return "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&q=80&w=800";
   };
 
   return (
@@ -45,13 +43,13 @@ export default function Modals({
 
             {viewingDocument.type === "application/pdf" ? (
               <iframe
-                src={getFullUrl(viewingDocument.url)} // <-- Applied Helper
+                src={getFullUrl(viewingDocument.url)} // <-- Applied strict fallback helper
                 className="doc-media doc-iframe"
                 title="Provider Document"
               />
             ) : (
               <img
-                src={getFullUrl(viewingDocument.url)} // <-- Applied Helper
+                src={getFullUrl(viewingDocument.url)} // <-- Applied strict fallback helper
                 alt="Document Full View"
                 className="doc-media doc-img"
               />

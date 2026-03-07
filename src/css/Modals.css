@@ -20,21 +20,31 @@
   z-index: 200;
 }
 
-/* Document Viewer Modal */
+/* =========================================
+   Document Viewer Modal 
+   ========================================= */
 .doc-viewer-content {
   position: relative;
   width: 100%;
   max-width: 56rem; /* max-w-4xl */
-  max-height: 90vh;
+  max-height: 85vh; /* Shrunk slightly to ensure it fits on small phones */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin-top: 3rem; /* CRUCIAL: Forces the modal down so the Close button isn't pushed off-screen */
+}
+
+@media (min-width: 640px) {
+  .doc-viewer-content {
+    margin-top: 0; /* Removes the safety margin on desktop */
+    max-height: 90vh;
+  }
 }
 
 .btn-close-modal {
   position: absolute;
-  top: -3rem;
+  top: -2.5rem; /* Pulled slightly closer to the image for mobile */
   right: 0;
   color: white;
   font-weight: bold;
@@ -44,6 +54,13 @@
   border-radius: 0.5rem;
   cursor: pointer;
   transition: color 0.2s ease;
+  z-index: 10;
+}
+
+@media (min-width: 640px) {
+  .btn-close-modal {
+    top: -3rem; /* Pushes it back up on desktop */
+  }
 }
 
 .btn-close-modal:hover {
@@ -55,20 +72,33 @@
   border-radius: 0.75rem;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
   border: 1px solid var(--border-color);
+  width: 100%;
 }
 
 .doc-iframe {
-  width: 100%;
-  height: 85vh;
+  height: 80vh; /* Scaled down slightly to fit the mobile screen safely */
+}
+
+@media (min-width: 640px) {
+  .doc-iframe {
+    height: 85vh;
+  }
 }
 
 .doc-img {
-  max-width: 100%;
-  max-height: 85vh;
+  max-height: 80vh;
   object-fit: contain;
 }
 
-/* Custom Alert / Confirm Modal */
+@media (min-width: 640px) {
+  .doc-img {
+    max-height: 85vh;
+  }
+}
+
+/* =========================================
+   Custom Alert / Confirm Modal 
+   ========================================= */
 .alert-modal-card {
   background-color: var(--bg-card);
   border-radius: 0.75rem;
@@ -80,14 +110,26 @@
 }
 
 .alert-modal-body {
-  padding: 1.5rem;
+  padding: 1.25rem; /* Slightly tighter on mobile */
+}
+
+@media (min-width: 640px) {
+  .alert-modal-body {
+    padding: 1.5rem;
+  }
 }
 
 .alert-title {
-  font-size: 1.25rem;
+  font-size: 1.125rem; /* Scaled for mobile */
   font-weight: bold;
   color: white;
   margin: 0 0 0.5rem 0;
+}
+
+@media (min-width: 640px) {
+  .alert-title {
+    font-size: 1.25rem;
+  }
 }
 
 .alert-message {
@@ -100,15 +142,24 @@
 
 .alert-modal-footer {
   background-color: var(--bg-input);
-  padding: 1rem 1.5rem;
+  padding: 1rem;
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column-reverse; /* MOBILE MAGIC: Puts "Cancel" below "Confirm" */
   gap: 0.75rem;
   border-top: 1px solid var(--border-color);
 }
 
+@media (min-width: 640px) {
+  .alert-modal-footer {
+    flex-direction: row; /* Snaps back to side-by-side on desktop */
+    justify-content: flex-end;
+    padding: 1rem 1.5rem;
+  }
+}
+
 .btn-cancel {
-  padding: 0.5rem 1rem;
+  width: 100%; /* Massive touch target on mobile */
+  padding: 0.75rem;
   color: var(--text-muted);
   font-weight: 500;
   background: none;
@@ -118,12 +169,20 @@
   transition: background-color 0.2s;
 }
 
+@media (min-width: 640px) {
+  .btn-cancel {
+    width: auto;
+    padding: 0.5rem 1rem;
+  }
+}
+
 .btn-cancel:hover {
   background-color: var(--bg-card);
 }
 
 .btn-confirm {
-  padding: 0.5rem 1rem;
+  width: 100%; /* Massive touch target on mobile */
+  padding: 0.75rem;
   background-color: var(--brand-blue);
   color: white;
   font-weight: 500;
@@ -132,6 +191,13 @@
   cursor: pointer;
   transition: background-color 0.2s;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+@media (min-width: 640px) {
+  .btn-confirm {
+    width: auto;
+    padding: 0.5rem 1rem;
+  }
 }
 
 .btn-confirm:hover {

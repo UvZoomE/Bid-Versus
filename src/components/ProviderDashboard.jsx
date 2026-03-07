@@ -57,7 +57,7 @@ export default function ProviderDashboard({
               }}
               className="card provider-job-card"
             >
-              {/* Left Side: Job Info */}
+              {/* Left Side (Top on Mobile): Job Info */}
               <div className="p-job-info">
                 <div className="p-job-meta-row">
                   <span
@@ -75,12 +75,12 @@ export default function ProviderDashboard({
                   )}
 
                   <span className="p-job-date">Posted {displayDate}</span>
+
                   <div className="p-job-actions">
                     <div>
                       <p className="p-quote-label">Customer's Quote</p>
                       <p className="p-quote-amount">${job.originalQuote}</p>
                     </div>
-
                     <button
                       className={`btn-bid-action ${userHasBid ? "btn-bid-placed" : "btn-view-bid"}`}
                     >
@@ -94,6 +94,7 @@ export default function ProviderDashboard({
                     </button>
                   </div>
                 </div>
+
                 <div className="text-image-container">
                   <h3 className="p-job-title">{job.title}</h3>
                   {job.documentUrl && job.documentUrl.startsWith("https") ? (
