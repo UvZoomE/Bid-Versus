@@ -25,7 +25,10 @@ export default function ProviderDashboard({
       {/* Dashboard Header */}
       <div className="card provider-header">
         <h1>Global Job Leads</h1>
-        <p>Review customer quotes and submit competitive counter-offers.</p>
+        <p>
+          Review customer quotes and submit competitive counter-offers at no
+          cost!
+        </p>
       </div>
 
       {/* List of Jobs */}
