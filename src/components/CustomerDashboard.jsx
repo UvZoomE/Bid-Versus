@@ -36,8 +36,7 @@ export default function CustomerDashboard({
             Global Community Feed
           </h1>
           <p className="header-desc">
-            View global requests, compare provider offers, and join the
-            discussion.
+            Submit your repair quote here at no cost and receive a lower price!
           </p>
         </div>
         <button
