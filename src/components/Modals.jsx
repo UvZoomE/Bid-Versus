@@ -21,7 +21,7 @@ export default function Modals({
     // If it's a relative path from our backend (e.g., 'uploads/file.pdf'), attach the server address
     // We also replace backslashes with forward slashes in case you are on Windows
     const cleanPath = url.replace(/\\/g, "/");
-    return `http://localhost:5000/${cleanPath}`;
+    return `https://bid-versus-backend.onrender.com/${cleanPath}`;
   };
 
   return (
