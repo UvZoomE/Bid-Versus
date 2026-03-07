@@ -893,3 +893,19 @@
   opacity: 0;
   cursor: pointer;
 }
+
+.floating-badge {
+  position: "absolute";
+  top: "0.5rem";
+  right: "0.5rem";
+  backgroundcolor: "#ef4444";
+  color: "white";
+  padding: "0.25rem 0.5rem";
+  borderradius: "0.25rem";
+  fontsize: "0.75rem";
+  fontweight: "bold";
+  display: "flex";
+  alignitems: "center";
+  gap: "0.25rem";
+  boxshadow: "0 2px 4px rgba(0,0,0,0.2)";
+}

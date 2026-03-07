@@ -226,6 +226,10 @@
 .job-image {
   width: 100%;
   height: 100%;
-  /* 'contain' ensures the whole logo/document is visible without zooming or cropping */
-  object-fit: contain;
+
+  /* THE FIX: Zooms in to fill the box entirely */
+  object-fit: cover;
+
+  /* THE FIX: Pins the camera to the top-center of the document */
+  object-position: top center;
 }

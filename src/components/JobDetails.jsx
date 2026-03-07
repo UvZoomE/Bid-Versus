@@ -194,30 +194,33 @@ export default function JobDetails({
                 </div>
               </div>
 
-              <div className="doc-preview-box">
-                {selectedJob.documentType === "application/pdf" ? (
-                  <div className="pdf-placeholder">
-                    <FileText className="w-16 h-16" />
-                    <span>PDF Document Attached</span>
+              <div className="doc-preview-box" style={{ position: "relative" }}>
+                <img
+                  src={(() => {
+                    const url = selectedJob.documentUrl;
+                    if (!url || !url.startsWith("https")) {
+                      return "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&q=80&w=800";
+                    }
+                    // THE MAGIC: If it's a PDF, tell Cloudinary to render it as a JPEG image!
+                    if (url.endsWith(".pdf")) {
+                      return url.replace(".pdf", ".jpg");
+                    }
+                    return url;
+                  })()}
+                  alt="Original Quote Preview"
+                  className="img-preview"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src =
+                      "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&q=80&w=800";
+                  }}
+                />
+
+                {/* Floating Badge so users know it's a PDF document */}
+                {selectedJob.documentType === "application/pdf" && (
+                  <div className="floating-badge">
+                    <FileText className="w-3 h-3" /> PDF
                   </div>
-                ) : (
-                  <img
-                    src={(() => {
-                      if (
-                        !selectedJob.documentUrl ||
-                        !selectedJob.documentUrl.startsWith("https")
-                      )
-                        return "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&q=80&w=800";
-                      return selectedJob.documentUrl;
-                    })()}
-                    alt="Original Quote Preview"
-                    className="img-preview"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src =
-                        "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&q=80&w=800";
-                    }}
-                  />
                 )}
               </div>
             </div>
